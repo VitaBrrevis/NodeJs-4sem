@@ -1,6 +1,6 @@
 
 document.addEventListener('DOMContentLoaded', function () {
-    let collectionsSwiper = new Swiper('.students__swiper', {
+    let studentsSwiper = new Swiper('.students__swiper', {
         slidesPerView: 'auto',
         spaceBetween: 15,
         centeredSlides: true,

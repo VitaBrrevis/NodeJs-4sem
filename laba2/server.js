@@ -32,6 +32,11 @@ const studentData = {
     "instaTag": '@brrevq'
   },
   Ivan: {
+    name: 'Ivan',
+    age: 18,
+    quote: 'One day or day one',
+    photo: '/images/ivan.JPG',
+    about: ' I am currently a second-year student of National Technical University of Ukraine "Igor Sikorsky Kyiv Polytechnic Institute". I spend my free time learning new technologies and programing languages. I also like to do sports, such as: table tennis and light athletics.'
   }
 };
 
