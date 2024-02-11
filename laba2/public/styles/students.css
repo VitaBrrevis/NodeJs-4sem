@@ -105,6 +105,7 @@ body {
 }
 
 .content-wrapper__button-home{
+    margin-right: 15px;
     background: rgba(218, 200, 178, 0.7);
     margin-top: 30px;
     color: #3a3329;
