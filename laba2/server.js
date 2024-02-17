@@ -16,7 +16,7 @@ const studentData = {
   Vlad: {
     name: 'Vlad',
     age: 19,
-    quote: 'you only live once , but if you do right, once is enoug',
+    quote: 'you only live once , but if you do right, once is enough',
     photo: '/images/vlad.jpg',
     about: ' I am currently a second-year software engineering student, and currently I’m into a web development, I also do sports. My favourite things to do: hanging out with friends, and spending time with myself' ,
     insta: 'https://www.instagram.com/coibelevin?igsh=MzRlODBiNWFlZA==',
