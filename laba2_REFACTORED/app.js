@@ -7,6 +7,8 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var studentsRouter = require('./routes/students');
 var studentRouter = require('./routes/student');
+var notesVladRouter = require('./routes/notesVlad');
+var notesIvanRouter = require('./routes/notesIvan');
 
 var app = express();
 
@@ -49,21 +51,29 @@ const studentData = {
     about: ' I am currently a second-year student of National Technical University of Ukraine "Igor Sikorsky Kyiv Polytechnic Institute". I spend my free time learning new technologies and programing languages. I also like to do sports, such as: table tennis and light athletics.'
   }
 };
+
+app.use((req, res, next) => {
+  res.locals.navbar = 'navbar';
+  next();
+});
 app.get('/student/:name', (req, res) => {
   const name = req.params.name;
   if (studentData.hasOwnProperty(name)) {
-    res.render('student', { student: studentData[name] });
+    res.render('student', { student: studentData[name], navbar: res.locals.navbar });
   } else {
     res.status(404).send('Student not found');
   }
 });
+
 app.use(function(req, res, next) {
   res.locals.studentData = studentData;
   next();
 });
 app.use('/', indexRouter);
 app.use('/students', studentsRouter);
-app.use('/student', studentRouter);
+app.use('/student/:name', studentRouter);
+app.use('/notesVlad', notesVladRouter);
+app.use('/notesIvan', notesIvanRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
