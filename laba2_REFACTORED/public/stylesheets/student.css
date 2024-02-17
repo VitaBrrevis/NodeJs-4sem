@@ -1,0 +1,147 @@
+.student__section-wrapper {
+    background-image: url('/images/HP.avif');
+    background-size: cover;
+    background-position: center;
+    min-height: 845px;
+    width: 100%;
+    display: flex;
+    height: 100%;
+}
+
+.student__content-wrapper {
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.student__content {
+    background: rgba(218, 200, 178, 0.7);
+    max-width: 1120px;
+    padding: 20px 20px 40px;
+    border-radius: 10px;
+    color: #3a3329;
+    margin: auto;
+    display: flex;
+    column-gap: 50px;
+    flex-wrap: wrap;
+    margin: 120px 20px;
+}
+
+.content__text-wrapper,
+.content__image-wrapper {
+    width: calc(50% - 25px);
+}
+
+.content__image-wrapper img {
+    width: 100%;
+}
+.content__image-wrapper{
+    display: flex;
+    align-items: center;
+}
+
+.content__text-wrapper {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.student__name {
+    font-family: Cinzel;
+    font-size: 50px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 40px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.student__age {
+    font-family: Cinzel;
+    font-size: 36px;
+    font-weight: 400;
+    letter-spacing: 0;
+}
+.student__quote{
+    font-family: Cinzel;
+    font-size: 24px;
+    font-weight: 400;
+    font-style: italic;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.student__extra-info{
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.student__quote::before{
+    content: "•";
+}
+.student__about{
+    font-family: Cinzel;
+    font-size: 16px;
+    font-weight: 400;
+}
+.content__home-button{
+    position: absolute;
+    bottom: 160px;
+    color: #3a3329;
+    text-decoration: none;
+    justify-content: center;
+    padding: 5px 0;
+    display: flex;
+    max-width: 120px;
+    font-family: Cinzel;
+    font-size: 16px;
+    font-weight: 400;
+    box-sizing: border-box;
+    letter-spacing: 0;
+    border: 1px solid #3a3329;
+    transition: all .3s;
+    width: 100%;
+}
+.content__home-button:hover{
+    color: rgba(218, 200, 178, 1);
+    background: #3a3329;
+}
+.student__insta{
+    margin-top: 10px;
+    color: #3a3329;
+    font-family: Cinzel;
+    font-size: 16px;
+    font-weight: 400;
+    text-decoration: none;
+}
+.student__insta:hover{
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    text-decoration-thickness: 1px;
+}
+@media (max-width: 980px) {
+    .content__text-wrapper, .content__image-wrapper{
+        width: 100%;
+    }
+    .content__home-button{
+        position: relative;
+        bottom: 0;
+        margin-top: 10px;
+    }
+    .content__image-wrapper{
+        margin-top: 10px;
+    }
+    .student__name{
+        font-size: 40px;
+    }
+    .student__age, .student__quote{
+        font-size: 16px;
+    }
+    .student__about{
+        font-size: 14px;
+    }
+}

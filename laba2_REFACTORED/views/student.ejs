@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Information</title>
+    <link rel="stylesheet" href="/stylesheets/student.css">
+
+</head>
+
+<body>
+<%- include(navbar) %>
+    <section class="student__section-wrapper">
+        <div class="student__content-wrapper">
+            <div class="student__content">
+                <div class="content__text-wrapper">
+                    <% if (student.name) { %>
+                    <span class="student__name">
+                        <%= student.name %>
+                    </span>
+                    <% } %>
+                    <% if (student.age || student.quote) { %>
+                    <div class = "student__extra-info">
+                    <% if (student.age) { %>
+                    <span class="student__age">
+                        <%= student.age %>
+                    </span>
+                   
+                    <% } %>
+                    <% if (student.quote) { %>
+                    <span class="student__quote">
+                        <%= student.quote %>
+                    </span>
+                    <% } %>
+                    </div>
+                    <% } %>
+                    <% if (student.about) { %>
+                    <span class="student__about">
+                        <%= student.about %>
+                    </span>
+                    <% } %>
+                    <% if (student.insta) { %>
+                        <a class = "student__insta"href="<%= student.insta %>">insta: 
+                            <% if (student.instaTag) { %>
+                                <%= student.instaTag %>
+                            <% } else { %>
+                                <%= student.name %>
+                            <% } %></a>
+                     <% } %>
+                </div>
+                <% if (student.photo) { %>
+                <div class="content__image-wrapper">
+                    <img src="<%= student.photo %>" alt="<%= student.name %>'s photo" width="100">
+                </div>
+                <% } %>
+                <a class = "content__home-button" href="/">HOME</a>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
