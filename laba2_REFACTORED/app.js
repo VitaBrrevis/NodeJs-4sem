@@ -6,9 +6,9 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var studentsRouter = require('./routes/students');
-var studentRouter = require('./routes/student');
-var notesVladRouter = require('./routes/notesVlad');
-var notesIvanRouter = require('./routes/notesIvan');
+var studentRouter = require('./routes/student')
+var notesRouter = require('./routes/notes');
+var notesManager = require('./models/mockData');
 
 var app = express();
 
@@ -30,7 +30,7 @@ const studentData = {
     age: 19,
     quote: 'you only live once , but if you do right, once is enough',
     photo: '/images/vlad.jpg',
-    about: ' I am currently a second-year software engineering student, and currently I’m into a web development, I also do sports. My favourite things to do: hanging out with friends, and spending time with myself' ,
+    about: ' I am currently a second-year software engineering student, and currently I’m into a web development, I also do sports. My favourite things to do: hanging out with friends, and spending time with myself',
     insta: 'https://www.instagram.com/coibelevin?igsh=MzRlODBiNWFlZA==',
     "instaTag": '@coibelevin'
   },
@@ -56,6 +56,7 @@ app.use((req, res, next) => {
   res.locals.navbar = 'navbar';
   next();
 });
+
 app.get('/student/:name', (req, res) => {
   const name = req.params.name;
   if (studentData.hasOwnProperty(name)) {
@@ -65,22 +66,42 @@ app.get('/student/:name', (req, res) => {
   }
 });
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.locals.studentData = studentData;
+  console.log(typeof(notesManager.getNotes_sync()));
+  res.locals.notes = notesManager.getNotes_sync();
   next();
 });
 app.use('/', indexRouter);
 app.use('/students', studentsRouter);
 app.use('/student/:name', studentRouter);
-app.use('/notesVlad', notesVladRouter);
-app.use('/notesIvan', notesIvanRouter);
+app.use('/notes', notesRouter);
+
+app.post('/createNote', (req, res) => {
+  console.log(req.body)
+  if (notesManager.addNotes(req.body)) {
+    res.redirect('/notes'); //??
+  } else {
+    res.status(500).send('Помилка при додаванні нотатки');
+  }
+});
+
+app.get('/deleteNote/:id', (req, res) => {
+  const id = req.params.id;
+  if (notesManager.deleteNotes(id)) {
+    res.redirect('/notes');
+  } else {
+    res.status(500).send('Помилка при видаленні нотатки');
+  }
+});
+
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Students</title>
+    <link rel="stylesheet" href="/stylesheets/notes.css">
+</head>
+
+<body>
+<%- include(navbar) %>
+    <section class="notes__section-wrapper">
+        <div class="notes__wraper">
+            
+            <div class="noteForm">
+                <h1>New note</h1>
+                <div class="notes__formItemContainer">
+                    <label for="title">Title:</label>
+                    <input type="text" id="title" name="title" required>
+                </div>
+                <br>
+                <div class="notes__formItemContainer">
+                    <label for="content">Content:</label>
+                    <textarea id="content" name="content" rows="4" required></textarea>
+                </div>
+                <br>
+                <button class="notes__newNoteSubmit" id="newNoteSubmitButton">Create Note</button>
+            </div>
+            <br>
+            <!-- List of existed notes -->
+            <div class="notes__list">
+                <% if(notes.length > 0) { %>
+                    <h2 class="notes__listtitle">Your notes</h2>
+                <% } %>
+                <% notes.forEach(note=> { %>
+                    <% if (note.title || note.content || note.createNote) { %>
+                        <div class="note__item">
+                            <% if (note.title) { %>
+                                <span class="note__title">
+                                    <%= note.title %>
+                                </span>
+                            <% } %>
+                            <% if (note.createdAt) { %>
+                                <span class="note__date">
+                                    <%= note.createdAt %>
+                                </span>
+                            <% } %>
+                            <br>
+                            <% if (note.content) { %>
+                                <span class="note__content">
+                                    <%= note.content %>
+                                </span>
+                            <% } %>
+                            <br>
+                            <a class="note__delete-button" href="/deleteNote/<%= note.id %>">delete</a>
+                        </div>
+                    <% } %>
+                <% }); %>
+            </div>
+        </div>
+    </section>    
+</body>
+<script src="/javascripts/notes.js"></script>
+
+</html>
