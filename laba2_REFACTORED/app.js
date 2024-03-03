@@ -80,7 +80,7 @@ app.use('/notes', notesRouter);
 app.post('/createNote', (req, res) => {
   console.log(req.body)
   if (notesManager.addNotes(req.body)) {
-    res.redirect('/notes'); //??
+    res.redirect('/notes'); 
   } else {
     res.status(500).send('Помилка при додаванні нотатки');
   }

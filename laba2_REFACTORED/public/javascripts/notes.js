@@ -15,6 +15,6 @@ submitButton.addEventListener('click', (event) => {
             content
         })
     })
-    titleLabel.value = '';
-    contentLabel.value = '';
+    //reload the page
+    location.reload();
 });
