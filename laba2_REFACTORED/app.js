@@ -45,7 +45,7 @@ const studentData = {
   },
   Ivan: {
     name: 'Ivan',
-    age: 18,
+    age: 19,
     quote: 'One day or day one',
     photo: '/images/ivan.JPG',
     about: ' I am currently a second-year student of National Technical University of Ukraine "Igor Sikorsky Kyiv Polytechnic Institute". I spend my free time learning new technologies and programing languages. I also like to do sports, such as: table tennis and light athletics.'
@@ -68,15 +68,17 @@ app.get('/student/:name', (req, res) => {
 
 app.use(function (req, res, next) {
   res.locals.studentData = studentData;
-  console.log(typeof(notesManager.getNotes_sync()));
+  //Notes goes like local parameter to template and called here as sync function. Can be called async functions as well.(getNotes_callback(), getNotes_promise(), getNotes_async())
   res.locals.notes = notesManager.getNotes_sync();
   next();
 });
+
 app.use('/', indexRouter);
 app.use('/students', studentsRouter);
 app.use('/student/:name', studentRouter);
 app.use('/notes', notesRouter);
 
+//Post request for adding new note.
 app.post('/createNote', (req, res) => {
   console.log(req.body)
   if (notesManager.addNotes(req.body)) {
@@ -86,6 +88,7 @@ app.post('/createNote', (req, res) => {
   }
 });
 
+//Get request for deleting note by id.
 app.get('/deleteNote/:id', (req, res) => {
   const id = req.params.id;
   if (notesManager.deleteNotes(id)) {
