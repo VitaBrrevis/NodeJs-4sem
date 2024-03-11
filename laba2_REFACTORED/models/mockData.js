@@ -1,7 +1,7 @@
 const fs = require('fs');
 const filepath = "./models/storage.json";
 
-
+//Function that reads the file and returns the data in a async/wait way
 const readFileAsync = (path) => {
     return new Promise((resolve, reject) => {
         fs.readFile(path, 'utf8', (err, data) => {
@@ -11,6 +11,7 @@ const readFileAsync = (path) => {
     });
 };
 
+//Function that reads the file and returns the data in a callback way
 function readFileCallback(callback) {
     fs.readFile('storage.json', 'utf8', (err, data) => {
         if (err) {
@@ -22,10 +23,12 @@ function readFileCallback(callback) {
     });
 }
 
+//Sync function that simply reads the file and returns the data in a sync way
 function sync() {
     return JSON.parse(fs.readFileSync(filepath, 'utf8'));
 }
 
+//Function that allows to call callback function and read notes with out waiting on the pending result
 async function cllbck() {
     try {
         const data = await new Promise((resolve, reject) => {
@@ -45,6 +48,7 @@ async function cllbck() {
     }
 }
 
+////Function that reads the file and returns the data in a promise way
 async function promise() {
     try {
         const data = await readFileAsync(filepath);
@@ -56,6 +60,7 @@ async function promise() {
     }
 }
 
+//Function that allows to call async/wait function and read notes with out waiting on the pending result
 async function async() {
     try {
         const data = await readFileAsync(filepath);
@@ -67,6 +72,7 @@ async function async() {
     }
 }
 
+//Function that adds new note to the file
 function addNotes(newNoteContent){
     try {
         storedNotes = JSON.parse(fs.readFileSync(filepath, 'utf8'));
@@ -89,6 +95,7 @@ function addNotes(newNoteContent){
     }
 }
 
+//Search and delete notes from the file by id
 function deleteNotes(id){
     try {
         storedNotes = JSON.parse(fs.readFileSync(filepath, 'utf8'));
@@ -101,6 +108,7 @@ function deleteNotes(id){
     }
 }
 
+//Function that exports when importing module in other file
 module.exports = {
     getNotes_sync: sync,
     getNotes_callback: cllbck,
