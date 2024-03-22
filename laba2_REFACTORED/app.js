@@ -12,6 +12,9 @@ var notesManager = require('./models/mockData');
 
 var app = express();
 
+//Data Base setup
+const { sequelize, Sequelize } = require('./models/index');
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
