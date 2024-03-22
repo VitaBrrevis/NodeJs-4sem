@@ -30,16 +30,20 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING 
     },
     photo: { 
-      type: DataTypes.BLOB 
+      type: DataTypes.STRING 
     },
     about: { 
       type: DataTypes.STRING 
     },
     insta: { 
       type: DataTypes.STRING 
+    },
+    instatag: { 
+      type: DataTypes.STRING 
     }
   }, {
     sequelize,
+    timestamps: false,
     modelName: 'Students',
   });
   return Students;

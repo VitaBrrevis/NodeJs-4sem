@@ -43,13 +43,13 @@
                             <% } %>
                             <% if (note.createdAt) { %>
                                 <span class="note__date">
-                                    <%= note.createdAt %>
+                                    <%= note.createdAt.toLocaleDateString() %>
                                 </span>
                             <% } %>
                             <br>
-                            <% if (note.content) { %>
+                            <% if (note.text) { %>
                                 <span class="note__content">
-                                    <%= note.content %>
+                                    <%= note.text %>
                                 </span>
                             <% } %>
                             <br>
