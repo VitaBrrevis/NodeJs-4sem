@@ -8,7 +8,7 @@ var indexRouter = require('./routes/index');
 var studentsRouter = require('./routes/students');
 var studentRouter = require('./routes/student')
 var notesRouter = require('./routes/notes');
-// var notesManager = require('./models/mockData');
+var authRouter = require('./routes/auth');
 
 var app = express();
 
@@ -59,6 +59,7 @@ app.use('/', indexRouter);
 app.use('/students', studentsRouter);
 app.use('/student/:name', studentRouter);
 app.use('/notes', notesRouter);
+app.use('/auth', authRouter);
 
 //Post request for adding new note.
 app.post('/createNote', (req, res) => {

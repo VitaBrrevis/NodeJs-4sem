@@ -3,8 +3,6 @@ var router = express.Router();
 
 const Notes = require('../models/index').Notes;
 
-
-
 router.get('/', function (req, res, next) {
     console.log('notes');
     Notes.findAll({
