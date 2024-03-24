@@ -59,51 +59,7 @@ sequelize.sync()
   .catch(err => {
     console.error('Error synchronizing models:', err);
   });
-
-// Users.create({
-//   login: 'admin',
-//   password: 'admin',
-//   createdAt: new Date(),
-//   updatedAt: new Date()
-// })
-// .then(newUser => {
-//   console.log('Новый пользователь создан:', newUser);
-// })
-// .catch(err => {
-//   console.error('Ошибка создания пользователя:', err);
-// });
-
-// Notes.create({
-//   userid: 1,
-//   title: 'test',
-//   text: 'test',
-//   createdAt: new Date(),
-//   updatedAt: new Date()
-// })
-// .then(newUser => {
-//   console.log('Новый пользователь создан:', newUser);
-// })
-// .catch(err => {
-//   console.error('Ошибка создания пользователя:', err);
-// });
-
-// Users.findByPk(1)
-// .then(adminuser => {
-//   console.log(adminuser);
-// });
-
-// Notes.findByPk(1)
-// .then(testnote => {
-//   console.log(testnote);
-// });
-
-// const models = sequelize.models;
-
-// for (const modelName in models) {
-//   console.log(`Model name: ${modelName}`);
-//   // Вывод свойств модели (например, атрибутов)
-//   console.log('Attributes:', models[modelName].rawAttributes);
-// }
+  
 
 module.exports = {
   Sequelize,

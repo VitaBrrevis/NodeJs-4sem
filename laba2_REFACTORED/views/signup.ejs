@@ -1,12 +1,32 @@
+<% if (message) { %>
+    <%= message %>
+<% } %>
+
+<!-- fix messages -->
+
 <h1>Sign up</h1>
-<form action="/signup" method="post">
+<form action="/auth/signup" method="post">
     <section>
         <label for="username">Username</label>
-        <input id="username" name="username" type="text" autocomplete="username" required>
+        <input id="username" name="username" type="email" autocomplete="username" required>
     </section>
     <section>
         <label for="new-password">Password</label>
         <input id="new-password" name="password" type="password" autocomplete="new-password" required>
     </section>
+    <section>
+        <label for="phone">Phone</label>
+        <input id="phone" name="phone" type="tel" autocomplete="phone" required>
+    </section>
+    <section>
+        <label for="firstname">Name</label>
+        <input id="firstname" name="firstname" type="text" autocomplete="firstname" required>
+    </section>
+    <section>
+        <label for="secondname">Surname</label>
+        <input id="secondname" name="secondname" type="text" autocomplete="secondname" required>
+    </section>
     <button type="submit">Sign up</button>
+    <br>
+    <label>Already have an account?<a href="/auth/login">Login</a></label>
 </form>

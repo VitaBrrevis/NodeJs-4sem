@@ -2,6 +2,11 @@
 <link rel="stylesheet" href="/stylesheets/fonts.css">
 <nav class = "navigation">
     <img class = "naviation__logo" src="./images/logo.png" >
+    <% if (session.authenticated) {%>
+        <a class = "logout-login-button navigation__item" href="/auth/logout">Logout</a>
+    <% } else { %>
+        <a class = "logout-login-button navigation__item" href="/auth/login">Login</a>
+    <% } %>
     <ul class = "navigation__links">
         <li class = "navigation__item"><a href="/students">Students</a></li>
         <li class = "navigation__item"><a href="/notes">Notes</a></li>

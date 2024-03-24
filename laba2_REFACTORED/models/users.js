@@ -18,10 +18,15 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        unique: true
       },
       login: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        unique: true,
+        validate: {
+          is: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+        }
       },
       password: {
         type: DataTypes.STRING
@@ -36,7 +41,8 @@ module.exports = (sequelize, DataTypes) => {
       },
       phone: {
         type: DataTypes.STRING,
-        allowNull: true 
+        allowNull: true,
+        unique: true
       }}, {
     sequelize,
     timestamps: false,

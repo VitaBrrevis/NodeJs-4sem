@@ -43,6 +43,10 @@ body {
 .navigation__item:hover{
     transform: scale(1.1);
 }
+.logout-login-button {
+    position: absolute;
+    left: 15px;
+}
 @media screen and (max-width: 768px){
     .naviation__logo{display: none;}
     .navigation{

@@ -1,5 +1,6 @@
 var createError = require('http-errors');
 var express = require('express');
+var session = require('express-session');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -14,6 +15,7 @@ var app = express();
 
 //Data Base setup
 const { sequelize, Sequelize } = require('./models/index');
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -25,6 +27,15 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(session({
+  store: new SequelizeStore({
+    db: sequelize
+  }),
+  resave: false,
+  secret: 'secretkey',
+  cookie: { maxAge: 1200000 },
+  saveUninitialized: false
+}));
 
 app.use((req, res, next) => {
   res.locals.navbar = 'navbar';
@@ -38,7 +49,7 @@ app.get('/student/:name', (req, res) => {
   Students.findOne({ where: { name: name } })
     .then(student => {
       if (student) {
-          res.render('student', { student: student, navbar: res.locals.navbar });
+          res.render('student', { student: student, navbar: res.locals.navbar, session: req.session });
       } else {
           res.status(404).send('Student not found');
       }
@@ -61,15 +72,6 @@ app.use('/student/:name', studentRouter);
 app.use('/notes', notesRouter);
 app.use('/auth', authRouter);
 
-//Post request for adding new note.
-app.post('/createNote', (req, res) => {
-  console.log(req.body)
-  if (notesManager.addNotes(req.body)) {
-    res.redirect('/notes'); 
-  } else {
-    res.status(500).send('Помилка при додаванні нотатки');
-  }
-});
 
 //Get request for deleting note by id.
 app.get('/deleteNote/:id', (req, res) => {
