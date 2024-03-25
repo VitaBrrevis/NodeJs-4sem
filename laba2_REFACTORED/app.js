@@ -75,17 +75,6 @@ app.use('/student/:name', studentRouter);
 app.use('/notes', notesRouter);
 app.use('/auth', authRouter);
 
-
-//Get request for deleting note by id.
-app.get('/deleteNote/:id', (req, res) => {
-  const id = req.params.id;
-  if (notesManager.deleteNotes(id)) {
-    res.redirect('/notes');
-  } else {
-    res.status(500).send('Помилка при видаленні нотатки');
-  }
-});
-
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));

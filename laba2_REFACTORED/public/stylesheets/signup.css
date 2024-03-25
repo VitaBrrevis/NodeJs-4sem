@@ -69,3 +69,13 @@ body{
     margin-top: 0;
     margin-bottom: 6px;
 }
+
+.signup__login_link{
+    color: #3833aa;
+    text-decoration: none;
+    font-family: Cinzel;
+    font-size: 17px;
+    font-weight: 400;
+    letter-spacing: 0;
+    margin-bottom: 0;
+}

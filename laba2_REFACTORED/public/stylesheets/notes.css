@@ -9,13 +9,22 @@
     width: 100%;
 }
 
+.notes__message_forms_handler{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 10px;
+    background: transparent;
+}
+
 .notes__wraper{
     display: flex;
     flex-direction: row;
     align-items: center;
     align-content: center;
     justify-content: space-between;
-    background: transparent;
     height: auto;
     min-width: 700px;
     padding: 3px;
@@ -68,10 +77,14 @@
 
 .notes__list{
     display: flex;
+    width: 300px;
     flex-direction: column;
     flex-wrap: wrap;
     margin: 8px;
     width: auto;
+    max-width: 400px;
+    max-height: 600px;
+    overflow-y: scroll;
 }
 
 .notes__listtitle{
@@ -81,16 +94,19 @@
 
 .notes__item {
     margin-top: 5px;
+    max-width: 400px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    max-width: 400px;
 }
 
 .note__title {
     font-size: 20px;
     font-weight: 600;
     margin-bottom: 10px;
+    max-width: 400px;
 }
 
 .note__date {
@@ -102,7 +118,9 @@
     font-size: 16px;
     margin-bottom: 10px;
     margin-right: 10px;
-    width: 100%;
+    max-width: 400px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .note__delete-button{
@@ -125,4 +143,13 @@
 .note__delete-button:hover {
     color: rgba(218, 200, 178, 1);
     background: #3a3329;
+}
+
+.notes__existed_notes{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 10px;
 }
