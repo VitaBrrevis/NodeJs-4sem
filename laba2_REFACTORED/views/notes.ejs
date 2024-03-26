@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Students</title>
+    <title>Notes</title>
     <link rel="stylesheet" href="/stylesheets/notes.css">
 </head>
 
@@ -56,7 +56,10 @@
                                     <% } %>
                                     <br>
                                     <!-- button that calls get method with note id to delete it -->
-                                    <a class="note__delete-button" href="notes/deleteNote/<%= note.id %>">Delete</a>
+                                    <div class="note__action-button-wrapper">
+                                        <a class="note__delete-button" href="notes/delete/<%= note.id %>">Delete</a>
+                                        <a class="note__change-button" href="notes/change/<%= note.id %>">Change</a>
+                                    </div>
                                 </div>
                             <% } %>
                         <% }); %>
@@ -66,6 +69,3 @@
         </div>
     </section>    
 </body>
-<script src="/javascripts/notes.js"></script>
-
-</html>

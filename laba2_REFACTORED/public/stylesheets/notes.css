@@ -77,12 +77,12 @@
 
 .notes__list{
     display: flex;
-    width: 300px;
+    width: 100%;
     flex-direction: column;
     flex-wrap: wrap;
     margin: 8px;
     width: auto;
-    max-width: 400px;
+    width: 400px;
     max-height: 600px;
     overflow-y: scroll;
 }
@@ -141,8 +141,36 @@
 }
 
 .note__delete-button:hover {
+    color: #3a3329;
+    background: rgb(190, 63, 31);
+}
+
+.note__change-button{
+    color: #3a3329;
+    text-decoration: none;
+    justify-content: center;
+    padding: 5px 0;
+    display: flex;
+    max-width: 75px;
+    font-family: Cinzel;
+    font-size: 14px;
+    font-weight: 400;
+    box-sizing: border-box;
+    letter-spacing: 0;
+    border: 1px solid #3a3329;
+    transition: all .3s;
+    width: 100%;
+}
+
+.note__change-button:hover {
     color: rgba(218, 200, 178, 1);
     background: #3a3329;
+}
+
+.note__action-button-wrapper{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
 }
 
 .notes__existed_notes{
@@ -152,4 +180,8 @@
     justify-content: center;
     width: 100%;
     padding: 10px;
+}
+
+#content {
+    resize: none;
 }

@@ -13,7 +13,7 @@ router.get('/', function (req, res, next) {
             res.render('notes', { notes: notes, navbar: res.locals.navbar, session: req.session, message: req.flash(), messages: res.locals.messages});
         })
     } else{
-        res.locals.message = 'Login first to see notes';
+        req.flash('warning', 'Login first to see notes');
         res.redirect('/auth/login');
     }    
 });
@@ -32,13 +32,50 @@ router.post('/', (req, res) => {
         });
 });
 
-router.get('/deleteNote/:id', (req, res) => {
-    Notes.destroy({
+router.get('/delete/:id', (req, res) => {
+    Notes.findOne({ where: { id: req.params.id } })
+    .then(note => {
+        if (note.userid != req.session.user.id) {
+            req.flash('warning', 'You don\'t have permission to delete this note');
+            res.redirect('/notes');
+        } else {
+            note.destroy();
+            req.flash('success', 'Note deleted successfully');
+            res.redirect('/notes');
+        }
+    }).catch(err => {
+        console.error(err);
+        req.flash('error', 'Error occured, try again later');
+        res.redirect('/notes');
+    });
+});
+
+router.get('/change/:id', (req, res) => {
+    Notes.findOne({ where: { id: req.params.id } })
+    .then(note => {
+        if (note.userid != req.session.user.id) {
+            req.flash('warning', 'You don\'t have permission to change this note');
+            res.redirect('/notes');
+        } else {
+            res.render('changeNote', { note: note, navbar: res.locals.navbar, session: req.session });
+        }
+    }).catch(err => {
+        console.error(err);
+        req.flash('error', 'Error occured, try again later');
+        res.redirect('/notes');
+    });
+});
+
+router.post('/change/:id', (req, res) => {
+    Notes.update({
+        title: req.body.title,
+        text: req.body.content 
+    }, {
         where: {
             id: req.params.id
         }
     }).then(() => {
-        req.flash('success', 'Note deleted successfully');
+        req.flash('success', 'Note updated successfully');
         res.redirect('/notes');
     }).catch(err => {
         console.error(err);
