@@ -36,6 +36,10 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true 
       },
       surname: {
+        type: DataTypes.JSON,
+        allowNull: true 
+      },
+      sharednotes: {
         type: DataTypes.STRING,
         allowNull: true 
       },

@@ -1,4 +1,5 @@
 var express = require('express');
+var bcrypt = require('bcrypt');
 var router = express.Router();
 
 const Users = require('../models/index').Users;
@@ -21,6 +22,7 @@ router.post('/signup', function(req, res, next) {
         }
     }).then(user => {
         if (user) {
+            req.flash('warning', 'This email is already registered');
             res.redirect('/auth/signup');
         } else if (emailpattern.test(req.body.username) === false) {
             req.flash('warning', 'Invalid email address');
@@ -41,18 +43,23 @@ router.post('/signup', function(req, res, next) {
             req.flash('warning', 'Password format is incorrect');
             res.redirect('/auth/signup');
         } else {
-            Users.create({
-                login: req.body.username.toLowerCase(),
-                password: req.body.password,
-                name: req.body.firstname,
-                surname: req.body.secondname,
-                phone: req.body.phone
-            }).then(user => {
-                req.flash('success', 'Account created successfully');
-                res.redirect('/auth/login');
-            }).catch(err => {
-                console.error(err);
-                res.status(500).send('Internal server error');
+            bcrypt.hash(req.body.password, 10).then(hashed_password => {
+                Users.create({
+                    login: req.body.username.toLowerCase(),
+                    password: hashed_password,
+                    name: req.body.firstname,
+                    surname: req.body.secondname,
+                    phone: req.body.phone
+                }).then(user => {
+                    req.flash('success', 'Account created successfully');
+                    res.redirect('/auth/login');
+                }).catch(err => {
+                    console.error(err);
+                    res.status(500).send('Internal server error');
+                });
+            }).catch(err => {            
+                req.flash('error', 'Internal server error. Please try again later');
+                res.redirect('/auth/signup');
             });
         }
     }).catch(err => {
@@ -71,23 +78,28 @@ router.get('/login', function (req, res, next) {
 });
 
 router.post('/login', function(req, res, next) {
+    
     Users.findOne({
         where: {
             login: req.body.username.toLowerCase(),
-            password: req.body.password
         }
     }).then(user => {
-        if (user) {
-            req.session.authenticated = true;
-            req.session.user = user;
-            res.redirect('/');
-        } else {
+        bcrypt.compare(req.body.password, user.password).then(result => {
+            if (result) {
+                req.session.authenticated = true;
+                req.session.user = user;
+                res.redirect('/');
+            } else {
+                req.flash('warning', 'Incorrect username or password');
+                res.redirect('/auth/login');
+            }
+        }).catch(err => {
             req.flash('warning', 'Incorrect username or password');
             res.redirect('/auth/login');
-        }
+        });
     }).catch(err => {
-        console.error(err);
-        res.status(500).send('Internal server error');
+        req.flash('warning', 'Incorrect username or password');
+        res.redirect('/auth/login');
     });
 });
 
