@@ -1,0 +1,10 @@
+<ul>
+    <% notes.forEach(function(note) { %>
+        <li>
+            <p>Note ID: <%= note.id %></p>
+            <p>Note Content: <%= note.content %></p>
+            <p>Note Owner: <%= note.owner.username %></p>
+            <!-- Add more properties as needed -->
+        </li>
+    <% }); %>
+    </ul>

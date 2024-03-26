@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 const Notes = require('../models/index').Notes;
+const Users = require('../models/index').Users;
 
 router.get('/', function (req, res, next) {
     if(req.session.authenticated){
@@ -81,6 +82,74 @@ router.post('/change/:id', (req, res) => {
         console.error(err);
         res.status(500).send('Internal server error');
     });
+});
+
+router.post('/share/:id', (req, res) => {
+    Notes.findOne({ where: { id: req.params.id } })
+    .then(note => {
+        if (note.userid != req.session.user.id) {
+            req.flash('warning', 'You don\'t have permission to share this note');
+            res.redirect('/notes');
+        } else if (req.body.email === req.session.user.login) {
+            req.flash('warning', 'You you can\'t share note with yourself');
+            res.redirect('/notes');
+        } else {
+            Users.findOne({ where: { login: req.body.email } }).
+            then(user => {
+                if (user == null) {
+                    req.flash('warning', 'User with this email doesn\'t exist');
+                    res.redirect('/notes');
+                } else {
+                    let sharedNotes = user.sharednotes ? user.sharednotes.split(',') : [];
+                    if (sharedNotes.includes(note.id.toString())) {
+                        req.flash('warning', 'Note already shared with this user');
+                        res.redirect('/notes');
+                        return;
+                    }
+                    sharedNotes.push(note.id);
+                    user.update({ sharednotes: sharedNotes.join(',') });
+                    req.flash('success', 'Note shared successfully');
+                    res.redirect('/notes');
+                }
+            }).catch(err => {
+                console.error(err);
+                req.flash('error', 'Error occured, try again later');
+                res.redirect('/notes');
+            });
+        }
+    }).catch(err => {
+        console.error(err);
+        req.flash('error', 'Error occured, try again later');
+        res.redirect('/notes');
+    });
+});
+
+router.get('/sharednotes', (req, res) => {
+    if(req.session.authenticated){
+        Users.findOne({ where: { id: req.session.user.id } })
+        .then(user => {
+            let sharedNotes = user.sharednotes ? user.sharednotes.split(',') : [];
+            Notes.findAll({
+                where: {
+                    id: sharedNotes
+                },
+                include: [{
+                    model: Users,
+                    as: 'owner',
+                    attributes: ['login', 'name', 'surname']
+                }]
+            }).then(notes => {
+                res.render('sharedNotes', { notes: notes, navbar: res.locals.navbar, session: req.session, message: req.flash(), messages: res.locals.messages});
+            });
+        }).catch(err => {
+            console.error(err);
+            req.flash('error', 'Error occured, try again later');
+            res.redirect('/notes');
+        });
+    } else{
+        req.flash('warning', 'Login first to see shared notes');
+        res.redirect('/auth/login');
+    }
 });
 
 module.exports = router;

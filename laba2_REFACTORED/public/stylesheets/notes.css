@@ -145,6 +145,34 @@
     background: rgb(190, 63, 31);
 }
 
+.note__shared-notes-link{
+    color: #3a3329;
+    text-decoration: none;
+    justify-content: center;
+    padding: 5px 0;
+    display: flex;
+    max-width: 110px;
+    font-family: Cinzel;
+    font-size: 14px;
+    font-weight: 400;
+    box-sizing: border-box;
+    letter-spacing: 0;
+    border: 1px solid #3a3329;
+    transition: all .3s;
+    width: 100%;
+}
+
+.note__shared-notes-link:hover {
+    color: rgba(218, 200, 178, 1);
+    background: #3a3329;
+}
+
+.notes__row-buttons-wrap{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
 .note__change-button{
     color: #3a3329;
     text-decoration: none;
@@ -167,6 +195,52 @@
     background: #3a3329;
 }
 
+.note__share-button{
+    background-color: rgba(218, 200, 178, 0.7);
+    color: #3a3329;
+    text-decoration: none;
+    justify-content: center;
+    padding: 5px 0;
+    display: flex;
+    max-width: 75px;
+    font-family: Cinzel;
+    font-size: 14px;
+    font-weight: 400;
+    box-sizing: border-box;
+    letter-spacing: 0;
+    border: 1px solid #3a3329;
+    transition: all .3s;
+    width: 100%;
+}
+
+.note__share-button:hover {
+    color: rgba(218, 200, 178, 1);
+    background: #3a3329;
+}
+
+.note__send-share-form-button{
+    background-color: rgba(218, 200, 178, 0.7);
+    color: #3a3329;
+    text-decoration: none;
+    justify-content: center;
+    padding: 5px 0;
+    display: flex;
+    max-width: 45px;
+    font-family: Cinzel;
+    font-size: 12px;
+    font-weight: 400;
+    box-sizing: border-box;
+    letter-spacing: 0;
+    border: 1px solid #3a3329;
+    transition: all .3s;
+    width: 100%;
+}
+
+.note__send-share-form-button:hover {
+    color: rgba(218, 200, 178, 1);
+    background: #3a3329;
+}
+
 .note__action-button-wrapper{
     display: flex;
     flex-direction: row;
@@ -184,4 +258,14 @@
 
 #content {
     resize: none;
+}
+
+.email-form{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 10px;
+    background: transparent;
 }

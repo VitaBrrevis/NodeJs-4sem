@@ -26,7 +26,10 @@
                         <textarea id="content" name="content" rows="4" required></textarea>
                     </div>
                     <br>
-                    <button class="notes__newNoteSubmit" id="newNoteSubmitButton">Create Note</button>
+                    <div class="notes__row-buttons-wrap">
+                        <button class="notes__newNoteSubmit" id="newNoteSubmitButton">Create Note</button>
+                        <a href="notes/sharednotes" class="note__shared-notes-link">Shared notes</a>
+                    </div>
                 </form>
                 <br>
                 <!-- List of existed notes -->
@@ -55,10 +58,15 @@
                                         </span>
                                     <% } %>
                                     <br>
-                                    <!-- button that calls get method with note id to delete it -->
+                                    <form class="email-form" style="display: none;" action="/notes/share/<%= note.id %>" method="post">
+                                        <input type="email" name="email" placeholder="Enter reciever email" required>
+                                        <input type="submit" value="Send" class="note__send-share-form-button">
+                                    </form>
                                     <div class="note__action-button-wrapper">
+                                        <!-- button that calls get method with note id to delete it -->
                                         <a class="note__delete-button" href="notes/delete/<%= note.id %>">Delete</a>
                                         <a class="note__change-button" href="notes/change/<%= note.id %>">Change</a>
+                                        <button class="note__share-button">Share</button>
                                     </div>
                                 </div>
                             <% } %>
@@ -67,5 +75,23 @@
                 </div>
             </div>
         </div>
-    </section>    
+    </section>   
+<script>
+    var shareForms = document.querySelectorAll('.email-form');
+    var shareButtons = document.querySelectorAll('.note__share-button');
+
+    shareButtons.forEach((shareButton, index) => {
+        shareButton.addEventListener('click', function(event) {
+            event.preventDefault();
+            var shareForm = shareForms[index];
+            if (shareForm.style.display === 'none') {
+                shareForm.style.display = 'block';
+                shareButton.textContent = 'Close';
+            } else {
+                shareForm.style.display = 'none';
+                shareButton.textContent = 'Share';
+            }
+        });
+    });
+</script>
 </body>
