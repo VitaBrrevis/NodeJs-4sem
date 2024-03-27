@@ -126,26 +126,33 @@ router.post('/share/:id', (req, res) => {
 
 router.get('/sharednotes', (req, res) => {
     if(req.session.authenticated){
-        Users.findOne({ where: { id: req.session.user.id } })
-        .then(user => {
-            let sharedNotes = user.sharednotes ? user.sharednotes.split(',') : [];
+        let sharedNotes = req.session.user.sharednotes;
+        if (sharedNotes) {
+            sharedNotes = sharedNotes.split(',');
             Notes.findAll({
                 where: {
                     id: sharedNotes
-                },
-                include: [{
-                    model: Users,
-                    as: 'owner',
-                    attributes: ['login', 'name', 'surname']
-                }]
+                }
             }).then(notes => {
-                res.render('sharedNotes', { notes: notes, navbar: res.locals.navbar, session: req.session, message: req.flash(), messages: res.locals.messages});
+                const userPromises = notes.map(note => {
+                    return Users.findOne({ 
+                        where: { id: note.userid } 
+                    }).then(user => {
+                        note.dataValues.login = user.login;
+                        note.dataValues.name = user.name;
+                        note.dataValues.surname = user.surname;
+                        return note;
+                    });
+                });
+
+                Promise.all(userPromises).then(completedNotes => {
+                    res.render('sharedNotes', { notes: completedNotes, navbar: res.locals.navbar, session: req.session, message: req.flash(), messages: res.locals.messages });
+                });
             });
-        }).catch(err => {
-            console.error(err);
-            req.flash('error', 'Error occured, try again later');
+        } else {
+            req.flash('info', 'No shared notes');
             res.redirect('/notes');
-        });
+        }
     } else{
         req.flash('warning', 'Login first to see shared notes');
         res.redirect('/auth/login');

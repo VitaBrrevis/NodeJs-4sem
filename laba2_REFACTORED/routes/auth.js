@@ -36,7 +36,7 @@ router.post('/signup', function(req, res, next) {
         } else if (!req.body.password.match(/[A-Z]/)){
             req.flash('warning', 'Password must contain at least one uppercase letter');
             res.redirect('/auth/signup');
-        } else if (req.body.phone && !req.body.phone.match()){
+        } else if (req.body.phone && !req.body.phone.match(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/)){
             req.flash('warning', 'Incorrect phone number format');
             res.redirect('/auth/signup');
         } else if (passwordpattern.test(req.body.password) === false) {
@@ -47,8 +47,8 @@ router.post('/signup', function(req, res, next) {
                 Users.create({
                     login: req.body.username.toLowerCase(),
                     password: hashed_password,
-                    name: req.body.firstname,
-                    surname: req.body.secondname,
+                    name: req.body.firstname.charAt(0).toUpperCase() + req.body.firstname.slice(1),
+                    surname: req.body.secondname.charAt(0).toUpperCase() + req.body.secondname.slice(1),
                     phone: req.body.phone
                 }).then(user => {
                     req.flash('success', 'Account created successfully');
@@ -66,7 +66,6 @@ router.post('/signup', function(req, res, next) {
         console.error(err);
         res.status(500).send('Internal server error');
     });
-
 });
 
 router.get('/login', function (req, res, next) {
