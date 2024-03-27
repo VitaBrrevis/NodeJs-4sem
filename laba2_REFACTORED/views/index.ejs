@@ -16,6 +16,9 @@
                 <span class="content-wrapper__date">february, 2024 - IP-23</span>
                 <h2 class="content-wrapper__heading"> Exploring our team</h2>
                 <a class="content-wrapper__cta-button" href="/students">Read more &gt;</a>
+                <% if(!session.authenticated) { %>
+                    <a class="hero-banner__login-link" href="/auth/login">Login</a>
+                <% } %>
             </div>
         </div>
 

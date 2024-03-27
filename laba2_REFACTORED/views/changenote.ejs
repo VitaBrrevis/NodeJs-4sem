@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change note <%= note.title %></title>
+    <link rel="stylesheet" href="/stylesheets/notes.css">
+    <link rel="stylesheet" href="/stylesheets/changenotes.css">
+</head>
+<body>
+    <%- include(navbar) %>
+    <section class="notes__section-wrapper">
+        <div class="notes__wraper">
+            <form class="noteForm" action="/notes/change/<%= note.id %>" method="post">
+                <h1>Change note "<%= note.title %>"</h1>
+                <div class="notes__formItemContainer">
+                    <label for="title">Title:</label>
+                    <input type="text" id="title" name="title" required value="<%= note.title %>">
+                </div>
+                <br>
+                <div class="notes__formItemContainer">
+                    <label for="content">Content:</label>
+                    <textarea id="content" name="content" rows="4" required><%= note.text %></textarea>
+                </div>
+                <br>
+                <button class="notes__newNoteSubmit" id="newNoteSubmitButton">Keep changes</button>
+            </form>
+        </div>
+    </section>
+</body>
+</html>

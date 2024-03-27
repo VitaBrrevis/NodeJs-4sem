@@ -1,0 +1,19 @@
+body{
+    margin: 0;
+}
+
+.notes__wraper{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    height: auto;
+    max-width: 300px;
+    padding: 3px;
+    font-family: Cinzel;
+    font-size: 16px;
+    backdrop-filter: blur(30px);
+    background: rgba(218, 200, 178, 0.7);
+    border: 1px solid #3a3329;
+}

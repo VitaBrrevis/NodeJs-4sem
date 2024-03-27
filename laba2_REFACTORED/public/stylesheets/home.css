@@ -63,6 +63,7 @@ body {
     border: 1px solid #3a3329;
     transition: all .3s;
     width: 100%;
+    margin-bottom: 30px;
 }
 
 .content-wrapper__cta-button:hover {
@@ -70,6 +71,15 @@ body {
     background: #3a3329;
 }
 
+.hero-banner__login-link{
+    color: #3a3329;
+    text-decoration: none;
+    font-family: Cinzel;
+    font-size: 24px;
+    font-weight: 400;
+    letter-spacing: 0;
+    margin-bottom: 0;
+}
 
 @media (max-width: 768px) {
     .hero-banner {
