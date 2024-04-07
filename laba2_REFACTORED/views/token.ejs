@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Token</title>
+    <link rel="stylesheet" href="/stylesheets/token.css">
+</head>
+
+<body>
+<%- include(navbar) %>
+    <section class="notes__section-wrapper">
+        <%- include(messages) %>
+        <div class="notes__wraper">
+            <label for="key">Your API key:</label>
+            <span id="apikey"><%= token %></span>
+        </div>
+    </section>
+
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/external/swiper.css">
+    <link rel="stylesheet" href="/stylesheets/students.css">
+    <title>Students</title>
+</head>
+
+<body>
+<%- include(navbar) %>
+    <section class="students__section-wrapper">
+        <div class="students__content-wrapper">
+            <h2 class="content-wrapper__header">About us</h2>
+            <div class="swiper students__swiper">
+                <div class="swiper-wrapper students__wrapper">
+                    <% students.forEach(student=> { %>
+                        <% if (student.name || student.quote || student.photo) { %>
+                        <div class="swiper-slide student__slide">
+                            <a class="slide__image-wrapper" href="/student/<%= student.name %>">
+                                <img src="<%= student.photo %>" alt="<%= student.name %>'s photo" width="100">
+                            </a>
+                            <% if (student.name) { %>
+                            <span class="slide__name">
+                                <%= student.name %>
+                            </span>
+                            <% } %>
+                            <% if (student.quote) { %>
+                            <span class="slide__quote">
+                                <%= student.quote %>
+                            </span>
+                            <% } %>
+                            <a class="slide__redirect-button" href="/student/<%= student.name %>">see more</a>
+                        </div>
+                        <% } %>
+                        <% }); %>
+                </div>
+            </div>
+            <div class="content-wrapper__button-wrapper">
+                 <a class="content-wrapper__button-home" href="/">HOME</a>
+            </div>
+        </div>
+    </section>
+
+</body>
+<script src="/external/swiper.js"></script>
+<script src="/javascripts/students.js"></script>
+
+</html>

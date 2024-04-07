@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/stylesheets/home.css">
+    <link rel="stylesheet" href="/stylesheets/fonts.css">
+    <title>Home</title>
+</head>
+
+<body>
+    <section class="hero-banner">
+        <div class="hero-banner__content-wrapper">
+            <div class="content-wrapper__text-wrapper">
+                <span class="content-wrapper__date">february, 2024 - IP-23</span>
+                <h2 class="content-wrapper__heading"> Exploring our team</h2>
+                <a class="content-wrapper__cta-button" href="/students">Read more &gt;</a>
+                <% if(!session.authenticated) { %>
+                    <a class="hero-banner__login-link" href="/auth/login">Login</a>
+                <% } %>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

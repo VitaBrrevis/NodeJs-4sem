@@ -1,0 +1,35 @@
+.notes__section-wrapper{
+    background-image: url('/images/HP.avif');
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-size: cover;
+    background-position: center;
+    min-height: 900px;
+    width: 100%;
+}
+
+.notes__wraper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    justify-content: space-between;
+    height: auto;
+    width: 500px;
+    overflow-x: visible;
+    overflow-wrap: break-word;
+    padding: 3px;
+    font-family: Cinzel;
+    font-size: 16px;
+    backdrop-filter: blur(30px);
+    background: rgba(218, 200, 178, 0.7);
+    border: 1px solid #3a3329;
+}
+
+#apikey{
+    width: 475px;
+    overflow-wrap: break-word;
+    background: rgba(218, 200, 178, 0.8);
+}

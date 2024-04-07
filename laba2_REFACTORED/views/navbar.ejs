@@ -1,0 +1,18 @@
+<link rel="stylesheet" href="/stylesheets/base.css">
+<link rel="stylesheet" href="/stylesheets/fonts.css">
+<nav class = "navigation">
+    <img class = "naviation__logo" src="./images/logo.png" >
+    <% if (session.authenticated) {%>
+        <a class = "logout-login-button" href="/auth/logout">Logout</a>
+    <% } else { %>
+        <a class = "logout-login-button" href="/auth/login">Login</a>
+    <% } %>
+    <ul class = "navigation__links">
+        <% if (session.authenticated) {%>
+            <li class = "navigation__item"><a href="/api/v1/generate">Get token</a></li>
+        <% } %>
+        <li class = "navigation__item"><a href="/students">Students</a></li>
+        <li class = "navigation__item"><a href="/notes">Notes</a></li>
+        <li class = "navigation__item"><a href="/">Home</a></li>
+    </ul>
+</nav>

@@ -1,0 +1,25 @@
+<link rel="stylesheet" href="/stylesheets/fonts.css">
+<link rel="stylesheet" href="/stylesheets/messages.css">
+<% if (message.warning) { %>
+    <div class="message_warning">
+        <%= message.warning %>
+    </div>
+<% } %>
+
+<% if (message.success) { %>
+    <div class="message_success">
+        <%= message.success %>
+    </div>
+<% } %>
+
+<% if (message.error) { %>
+    <div class="message_error">
+        <%= message.error %>
+    </div>
+<% } %>
+
+<% if (message.info) { %>
+    <div class="message_info">
+        <%= message.info %>
+    </div>
+<% } %>
