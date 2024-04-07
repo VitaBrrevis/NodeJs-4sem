@@ -6,11 +6,14 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const flash = require('express-flash');
 
+
+
 var indexRouter = require('./routes/index');
 var studentsRouter = require('./routes/students');
 var studentRouter = require('./routes/student')
 var notesRouter = require('./routes/notes');
 var authRouter = require('./routes/auth');
+var apiRouter = require('./routes/api');
 
 var app = express();
 
@@ -74,6 +77,7 @@ app.use('/students', studentsRouter);
 app.use('/student/:name', studentRouter);
 app.use('/notes', notesRouter);
 app.use('/auth', authRouter);
+app.use('/api/v1', apiRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

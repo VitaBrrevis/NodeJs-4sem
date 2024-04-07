@@ -4,20 +4,65 @@ var router = express.Router();
 const Notes = require('../models/index').Notes;
 const Users = require('../models/index').Users;
 
-router.get('/', function (req, res, next) {
-    if(req.session.authenticated){
-        Notes.findAll({
-            where: {
-                userid: req.session.user.id
-            }
-        }).then(notes => {
-            res.render('notes', { notes: notes, navbar: res.locals.navbar, session: req.session, message: req.flash(), messages: res.locals.messages});
-        })
-    } else{
-        req.flash('warning', 'Login first to see notes');
-        res.redirect('/auth/login');
-    }    
+router.get('/', async (req, res, next) => {
+    try {
+        if(req.session.authenticated){
+            const { limit = 7, page = 1,  filter } = req.query;
+            const offset = (page - 1) * limit;
+
+            // const whereClause = {
+            //     userid: req.session.user.id
+            // };
+
+            // Apply filtering if filter query parameter is present
+            // if (filter) {
+            //     whereClause[Op.or] = [
+            //         { title: { [Op.like]: `%${filter}%` } },
+            //         { text: { [Op.like]: `%${filter}%` } }
+            //     ];
+            // }
+
+            // const { count, rows: notes } = await Notes.findAndCountAll({
+            //     where: whereClause,
+            //     offset,
+            //     limit: parseInt(limit)
+            // });
+            var request = `http://localhost:3000/api/v1/notes/page/${parseInt(page)}?limit=${limit}`;
+            request += filter == null ? "" : `&filter=${filter}`;
+            notesRes = await fetch( request,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Cookie': `token=${req.cookies.token}`
+                    }
+
+                    });
+            const {notes,totalPages} = await (notesRes).json();
+
+
+            //const totalPages = Math.ceil(count / limit);
+
+            res.render('notes', {
+                notes: notes,
+                navbar: res.locals.navbar,
+                session: req.session,
+                message: req.flash(),
+                messages: res.locals.messages,
+                totalPages,
+                currentPage: page,
+                filter
+            });
+        } else {
+            req.flash('warning', 'Login first to see notes');
+            res.redirect('/auth/login');
+        }
+    } catch (error) {
+        console.error(error);
+        req.flash('error', 'Internal server error');
+        res.redirect('/notes');
+    }
 });
+
 
 router.post('/', (req, res) => {
     const title = req.body.title;

@@ -64,7 +64,11 @@ body {
     }
 
     .navigation__links{
-    padding-left: 0
+        padding-left: 0;
+        gap: 2px;
+        justify-content: right;
+        width: 100%;
     }
+
 
 }
