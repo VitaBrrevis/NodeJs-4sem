@@ -4,11 +4,8 @@ const { Op } = require("sequelize");
 var auth = require('../auth');
 var router = express.Router();
 
-
 const Students = require('../models/index').Students;
 const Notes = require('../models/index').Notes;
-const Users = require('../models/index').Users;
-
 
 router.get('/generate', function (req, res, next) {
     const user = req.session.user;
@@ -48,11 +45,6 @@ router.get('/students/:id', function (req, res, next) {
 });
 
 router.get('/notes/page/:page', auth.authenticateToken, function (req, res, next) {
-// router.get('/notes/page/:page',  function (req, res, next) {
-//    jwt.verify(req.headers.token, ACCESS_TOKEN_SECRET, (err, user) => {
-//        if (err) {
-//            res.status(403).send('Forbidden');
-//        } else {
         const {  limit =10, filter } = req.query;
         const page = parseInt(req.params.page);
         var whereClause = {
@@ -76,8 +68,6 @@ router.get('/notes/page/:page', auth.authenticateToken, function (req, res, next
             console.error(err);
             res.status(500).send('Internal server error');
         });
-//        }
-//    });
 });
 
 
@@ -144,12 +134,20 @@ router.put('/notes/:id', function (req, res, next) {
         if (err) {
             res.status(403).send('Forbidden');
         } else {
-            
-            Notes.update({
-                title: req.body.title,
-                text: req.body.text
-            }, { where: { id: req.params.id } }).then(note => {
-                res.json(note);
+            Notes.findOne({ where: { id: req.params.id } }).then(note => {
+                if (note && note.userid == user.id) {
+                    note.update({
+                        title: req.body.title,
+                        text: req.body.text
+                    }).then(note => {
+                        res.json(note);
+                    }).catch(err => {
+                        console.error(err);
+                        res.status(500).send('Internal server error');
+                    });
+                } else {
+                    res.status(404).send('Note not found');
+                }
             }).catch(err => {
                 console.error(err);
                 res.status(500).send('Internal server error');
@@ -163,8 +161,17 @@ router.delete('/notes/:id', function (req, res, next) {
         if (err) {
             res.status(403).send('Forbidden');
         } else {
-            Notes.destroy({ where: { id: req.params.id } }).then(() => {
-                res.status(204).send();
+            Notes.findOne({ where: { id: req.params.id } }).then(note => {
+                if (note && note.userid == user.id) {
+                    note.destroy().then(() => {
+                        res.status(204).send('Note deleted successfully');
+                    }).catch(err => {
+                        console.error(err);
+                        res.status(500).send('Internal server error');
+                    });
+                } else {
+                    res.status(404).send('Note not found');
+                }
             }).catch(err => {
                 console.error(err);
                 res.status(500).send('Internal server error');
@@ -172,40 +179,5 @@ router.delete('/notes/:id', function (req, res, next) {
         }
     });
 });
-
-//roles required to access this paths
-// router.get('/users', function (req, res, next) {
-//     jwt.verify(req.headers.token, ACCESS_TOKEN_SECRET, (err, user) => {
-//         if (err) {
-//             res.status(403).send('Forbidden');
-//         } else {
-//             Users.findAll().then(users => {
-//                 res.json(users);
-//             }).catch(err => {
-//                 console.error(err);
-//                 res.status(500).send('Internal server error');
-//             });
-//         }
-//     });
-// });
-
-// router.get('/users/:id', function (req, res, next) {
-//     jwt.verify(req.headers.token, ACCESS_TOKEN_SECRET, (err, user) => {
-//         if (err) {
-//             res.status(403).send('Forbidden');
-//         } else {
-//             Users.findOne({ where: { id: req.params.id } }).then(user => {
-//                 if (user) {
-//                     res.json(user);
-//                 } else {
-//                     res.status(404).send('User not found');
-//                 }
-//             }).catch(err => {
-//                 console.error(err);
-//                 res.status(500).send('Internal server error');
-//             });
-//         }
-//     });
-// });
 
 module.exports = router;

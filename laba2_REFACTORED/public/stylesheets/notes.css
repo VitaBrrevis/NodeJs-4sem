@@ -76,14 +76,13 @@
 
 .notes__list{
     display: flex;
-    /* width: 100%; */
     flex-direction: column;
     flex-wrap: wrap;
     margin: 8px;
     width: auto;
     width: 400px;
     max-height: 600px;
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
 }
 
 .notes__shared-notes-list{
