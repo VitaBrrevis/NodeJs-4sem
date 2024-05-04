@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="/stylesheets/login.css">
+    <link rel="stylesheet" href="/stylesheets/fonts.css">
+</head>
+
+<body>
+    <div class="login__wrapper">
+        <div class="login__form_wrapper">
+            <h1>Login</h1>
+            <%- include(messages) %>
+            <form class="login__form" action="/auth/login" method="post">
+                <section>
+                    <input class="login__input_field" id="username" name="username" type="text" autocomplete="username" required placeholder="Email">
+                </section>
+                <section>
+                    <input class="login__input_field" id="new-password" name="password" type="password" autocomplete="new-password" required placeholder="Password">
+                </section>
+                <button class="login__submit_button" type="submit">Login</button>
+                <div>
+                    <label class="login__register_label">Don't have an account?<a class="login__register_link" href="/auth/signup">      Sign up</a></label>
+                </div>
+            </form> 
+        </div>
+    </div>
+</body>
+</html>

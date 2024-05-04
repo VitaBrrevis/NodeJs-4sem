@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shared notes</title>
+    <link rel="stylesheet" href="/stylesheets/notes.css">
+</head>
+<body>
+    <%- include(navbar) %>
+    <section class="notes__section-wrapper">
+        <div class="notes__wraper">
+            <div class="notes__shared-notes-list">
+                <% notes.forEach(function(note) { %>
+                    <div class="note__item">
+                        <span class="note__title">
+                            <%= note.title %>
+                        </span>
+                        <span class="note__date">
+                            <%= note.createdAt.toLocaleDateString() %>
+                        </span>
+                        <br>
+                        <span class="note__content">
+                            <%= note.text %>
+                        </span>
+                        <br>
+                        <div class="note__owner">
+                            <span class="note__owner-email"><%= note.dataValues.login %></span>
+                            <span class="note__owner-nemae-surname">
+                                <% if(note.dataValues.surname) { %>
+                                    <%= note.dataValues.surname %>
+                                <% } %>
+                                <% if(note.dataValues.name) { %>
+                                    <%= note.dataValues.name %>
+                                <% } %>
+                            </span>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

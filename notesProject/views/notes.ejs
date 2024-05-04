@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes</title>
+    <link rel="stylesheet" href="/stylesheets/notes.css">
+</head>
+
+<body>
+<%- include(navbar) %>
+    <section class="notes__section-wrapper">
+        <div class="notes__message_forms_handler">
+            <%- include(messages) %>
+            <div class="notes__wraper">
+                <form class="noteForm" action="/notes" method="post">
+                    <h1>New note</h1>
+                    <div class="notes__formItemContainer">
+                        <label for="title">Title:</label>
+                        <input type="text" id="title" name="title" required>
+                    </div>
+                    <br>
+                    <div class="notes__formItemContainer">
+                        <label for="content">Content:</label>
+                        <textarea id="content" name="content" rows="4" required></textarea>
+                    </div>
+                    <br>
+                    <div class="notes__row-buttons-wrap">
+                        <button class="notes__newNoteSubmit" id="newNoteSubmitButton">Create Note</button>
+                        <a href="notes/sharednotes" class="note__shared-notes-link">Shared notes</a>
+                    </div>
+                </form>
+                <br>
+                <div class="notes__existed_notes">
+                    <% if(notes.length > 0) { %>
+                        <h2 class="notes__listtitle">Your notes</h2>
+                    <% } %>
+                        <div class="notes__filter">
+                            <input type="text" id="filterInput" placeholder="Search notes..." required>
+                            <button id="applyFilter">Apply Filter</button>
+                        </div>
+                    <div class="notes__list">
+                        <% notes.forEach(note=> { %>
+                            <% if (note.title || note.content || note.createNote) { %>
+                                <div class="note__item">
+                                    <% if (note.title) { %>
+                                        <span class="note__title">
+                                            <%= note.title %>
+                                        </span>
+                                    <% } %>
+                                    <% if (note.createdAt) { %>
+                                            <span class="note__date"><%= new Date(note.createdAt).toLocaleDateString() %></span>
+                                    <% } %>
+                                    <br>
+                                    <% if (note.text) { %>
+                                        <span class="note__content">
+                                            <%= note.text %>
+                                        </span>
+                                    <% } %>
+                                    <br>
+                                    <form class="email-form" style="display: none;" action="/notes/share/<%= note.id %>" method="post">
+                                        <input type="email" name="email" placeholder="Enter reciever email" required>
+                                        <input type="submit" value="Send" class="note__send-share-form-button">
+                                    </form>
+                                    <div class="note__action-button-wrapper">
+                                        <a class="note__delete-button" href="notes/delete/<%= note.id %>">Delete</a>
+                                        <a class="note__change-button" href="notes/change/<%= note.id %>">Change</a>
+                                        <button class="note__share-button">Share</button>
+                                    </div>
+                                </div>
+                            <% } %>
+                        <% }); %>
+                    </div>
+                        <div class="notes__pagination">
+                            <button id="prevPage" class="notes__pagination-button" <% if(currentPage == 1) { %>  disabled <% } %> >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
+                                    <path d="M13.3333 31.6667C13.3333 30.43 12.1117 28.5834 10.875 27.0334C9.285 25.0334 7.385 23.2884 5.20667 21.9567C3.57333 20.9584 1.59333 20 0 20M0 20C1.59333 20 3.575 19.0417 5.20667 18.0434C7.385 16.71 9.285 14.965 10.875 12.9684C12.1117 11.4167 13.3333 9.56669 13.3333 8.33335M0 20H40" stroke="#3C3C3B"/>
+                                </svg>
+                            </button>
+                            <span id="pageNumbers"><%= currentPage %></span>
+                            <button id="nextPage"  class="notes__pagination-button"  <% if(totalPages <= currentPage) { %>  disabled <% } %>>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
+                                    <path d="M13.3333 31.6667C13.3333 30.43 12.1117 28.5834 10.875 27.0334C9.285 25.0334 7.385 23.2884 5.20667 21.9567C3.57333 20.9584 1.59333 20 0 20M0 20C1.59333 20 3.575 19.0417 5.20667 18.0434C7.385 16.71 9.285 14.965 10.875 12.9684C12.1117 11.4167 13.3333 9.56669 13.3333 8.33335M0 20H40" stroke="#3C3C3B"/>
+                                </svg>
+                            </button>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<script>
+    const shareForms = document.querySelectorAll('.email-form');
+    const shareButtons = document.querySelectorAll('.note__share-button');
+
+    shareButtons.forEach((shareButton, index) => {
+        shareButton.addEventListener('click', function(event) {
+            event.preventDefault();
+            let shareForm = shareForms[index];
+            if (shareForm.style.display === 'none') {
+                shareForm.style.display = 'block';
+                shareButton.textContent = 'Close';
+            } else {
+                shareForm.style.display = 'none';
+                shareButton.textContent = 'Share';
+            }
+        });
+    });
+    document.getElementById("applyFilter").addEventListener("click", function() {
+        let filterValue = document.getElementById("filterInput").value.trim();
+        if (filterValue !== "") {
+            window.location.href = "/notes?filter=" + encodeURIComponent(filterValue);
+        } else {
+            alert("Please enter a filter value.");
+        }
+    });
+    document.getElementById("prevPage").addEventListener("click", function() {
+        let page = parseInt(document.getElementById("pageNumbers")?.innerText);
+        if (page > 1) {
+            let url = new URL(window.location.href);
+            url.searchParams.set('page', page - 1);
+            window.location.href = url.toString();
+        }
+    });
+
+    document.getElementById("nextPage").addEventListener("click", function() {
+        let page = parseInt(document.getElementById("pageNumbers")?.innerText);
+        let url = new URL(window.location.href);
+        url.searchParams.set('page', page + 1);
+        window.location.href = url.toString();
+    });
+
+</script>
+</body>

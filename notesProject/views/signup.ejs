@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign up</title>
+    <link rel="stylesheet" href="/stylesheets/signup.css">
+    <link rel="stylesheet" href="/stylesheets/fonts.css">
+    <link rel="stylesheet" href="/stylesheets/messages.css">
+</head>
+<body>
+    <div class="signup__wrapper">
+        <div class="signup__form_wrapper">
+            <h1>Sign up</h1>
+            <%- include(messages) %>
+            <form class="signup__form" action="/auth/signup" method="post">
+                <section>
+                    <input class="signup__input_field" id="username" name="username" type="email" autocomplete="username" required placeholder="Email">
+                </section>
+                <section>
+                    <input class="signup__input_field" id="new-password" name="password" type="password" autocomplete="new-password" required placeholder="Password">
+                </section>
+                <section>
+                    <input class="signup__input_field" id="phone" name="phone" type="tel" autocomplete="phone" placeholder="Mob.phone">
+                </section>
+                <section>
+                    <input class="signup__input_field" id="firstname" name="firstname" type="text" autocomplete="firstname" placeholder="Name">
+                </section>
+                <section>
+                    <input class="signup__input_field" id="secondname" name="secondname" type="text" autocomplete="secondname" placeholder="Surname">
+                </section>
+                <button class="signup__submit_button" type="submit">Sign up</button>
+                <br>
+                <label class="signup__register_label">Already have an account?<a href="/auth/login" class="signup__login_link">   Login</a></label>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
