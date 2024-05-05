@@ -6,6 +6,7 @@
     "start": "nodemon ./bin/www"
   },
   "dependencies": {
+    "auth": "^1.0.2",
     "bcrypt": "^5.1.1",
     "connect-session-sequelize": "^7.1.7",
     "cookie-parse": "^0.4.0",
