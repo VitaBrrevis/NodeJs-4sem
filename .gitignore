@@ -133,4 +133,3 @@ dist
 # db files
 devdb.sqlite
 cred.txt
-auth.js
