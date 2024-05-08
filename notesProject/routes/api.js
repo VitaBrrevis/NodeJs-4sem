@@ -2,7 +2,6 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const { Op } = require("sequelize");
 const auth = require('../auth')
-const {Users} = require("../models");
 const router = express.Router();
 
 const Students = require('../models/index').Students;
@@ -98,7 +97,7 @@ router.get('/notes', function (req, res, next) {
 });
 
 router.get('/notes/:id', function (req, res, next) {
-    jwt.verify(req.headers.token, ACCESS_TOKEN_SECRET, (err, user) => {
+    jwt.verify(req.headers.token, auth.ACCESS_TOKEN_SECRET, (err, user) => {
         if (err) {
             return res.status(403).send('Forbidden');
         }
@@ -117,48 +116,41 @@ router.get('/notes/:id', function (req, res, next) {
 });
 
 router.post('/notes', function (req, res, next) {
-    jwt.verify(req.headers.token, ACCESS_TOKEN_SECRET, async (err, user) => {
+    jwt.verify(req.headers.token, auth.ACCESS_TOKEN_SECRET, (err, user) => {
         if (err) {
             return res.status(403).send('Forbidden');
         }
-        const t = await Users.sequelize.transaction();
-        try {
+
         Notes.create({
             title: req.body.title,
             text: req.body.text,
             userid: user.id
-        })
+        }).then(note => {
             res.json(note);
-            await t.commit();
-        }catch (error) {
-            await t.rollback();
-            console.error(error);
+        }).catch(err => {
+            console.error(err);
             res.status(500).send('Internal server error');
-        }
+        });
     });
 });
 
 router.put('/notes/:id', function (req, res, next) {
-    jwt.verify(req.headers.token, ACCESS_TOKEN_SECRET, async(err, user) => {
+    jwt.verify(req.headers.token, auth.ACCESS_TOKEN_SECRET, (err, user) => {
         if (err) {
             return res.status(403).send('Forbidden');
         }
 
-        Notes.findOne({ where: { id: req.params.id } }).then(async note => {
+        Notes.findOne({ where: { id: req.params.id } }).then(note => {
             if (note && note.userid == user.id) {
-                const t = await Users.sequelize.transaction();
-                try {
                 note.update({
                     title: req.body.title,
                     text: req.body.text
-                }, {transaction: t})
-                    await t.commit();
+                }).then(note => {
                     res.json(note);
-                }catch (error) {
-                        await t.rollback();
-                        console.error(error);
-                        res.status(500).send('Internal server error');
-                    }
+                }).catch(err => {
+                    console.error(err);
+                    res.status(500).send('Internal server error');
+                });
             } else {
                 res.status(404).send('Note not found');
             }
@@ -166,27 +158,23 @@ router.put('/notes/:id', function (req, res, next) {
             console.error(err);
             res.status(500).send('Internal server error');
         });
-
     });
 });
 
 router.delete('/notes/:id', function (req, res, next) {
-    jwt.verify(req.headers.token, ACCESS_TOKEN_SECRET, (err, user) => {
+    jwt.verify(req.headers.token, auth.ACCESS_TOKEN_SECRET, (err, user) => {
         if (err) {
             return res.status(403).send('Forbidden');
         }
 
-        Notes.findOne({ where: { id: req.params.id } }).then(async note => {
+        Notes.findOne({ where: { id: req.params.id } }).then(note => {
             if (note && note.userid == user.id) {
-                const t = await Users.sequelize.transaction();
-                try {
-                note.destroy( {transaction: t});
-                res.status(204).send('Note deleted successfully');
-                }catch (error) {
-                        await t.rollback();
-                        console.error(error);
-                        res.status(500).send('Internal server error');
-                    }
+                note.destroy().then(() => {
+                    res.status(204).send('Note deleted successfully');
+                }).catch(err => {
+                    console.error(err);
+                    res.status(500).send('Internal server error');
+                });
             } else {
                 res.status(404).send('Note not found');
             }
@@ -195,25 +183,6 @@ router.delete('/notes/:id', function (req, res, next) {
             res.status(500).send('Internal server error');
         });
     });
-});
-
-
-router.post('/notes_fail', async function (req, res, next) {
-
-        const t = await Users.sequelize.transaction();
-        try {
-            Notes.create({
-                title: req.query.title,
-                text: req.query.text,
-                userid: req.query.userid
-            })
-            res.json(note);
-            await t.commit();
-        }catch (error) {
-            await t.rollback();
-            console.error(error);
-            res.status(500).send('Internal server error');
-        }
 });
 
 module.exports = router;

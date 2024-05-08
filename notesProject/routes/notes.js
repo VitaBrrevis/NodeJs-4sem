@@ -1,5 +1,5 @@
-var express = require('express');
-var router = express.Router();
+let express = require('express');
+let router = express.Router();
 
 const Notes = require('../models/index').Notes;
 const Users = require('../models/index').Users;
